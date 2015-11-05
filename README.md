@@ -14,7 +14,7 @@ In order to use this cookie on your local machine you will need to make your app
 The recommended way to do this is to [install nginx](https://www.google.com/?#q=install%20nginx) then use the nginx.conf which is part of this project.
 Once your application is started on port 8080 and nginx is running your application should be accessible here http://local.ihtsdotools.org
 
-If you are not logged in to IMS you will get a "403 - Access Denied" response.
+If you are not logged in to IMS you will get a "403 - Access Denied" response from your API controllers.
 
 Your frotend javascript code should access ["/ims-api/account"](http://local.ihtsdotools.org/ims-api/account) to check if the user is logged in. That URL is also part of the nginx config and will map through to the IMS server for the dev environment. If the user is logged in there will be a 200 response along with the user details. If the user is not logged in there will be a 302 response to redirect the user to the IMS login page.
 
