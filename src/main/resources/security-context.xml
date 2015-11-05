@@ -24,6 +24,7 @@
 		<intercept-url pattern="/**/*.jpg" access="permitAll" />
 
 		<!-- Require application role on everything else -->
+		<!-- Comment out the line below to disable authentication -->
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ihtsdo-sca-author')" />
 	</http>
 
