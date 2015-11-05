@@ -16,6 +16,8 @@ Once your application is started on port 8080 and nginx is running your applicat
 
 If you are not logged in to IMS you will get a "403 - Access Denied" response.
 
+Your frotend javascript code should access ["/ims-api/account"](http://local.ihtsdotools.org/ims-api/account) to check if the user is logged in. That URL is also part of the nginx config and will map through to the IMS server for the dev environment. If the user is logged in there will be a 200 response along with the user details. If the user is not logged in there will be a 302 response to redirect the user to the IMS login page.
+
 ## Notes
 - The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the Crowd/IMS role "ihtsdo-sca-author". You should change this to your application specific role.
 - The crowd.properties file is only relevant for the development environment.
