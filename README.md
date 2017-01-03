@@ -1,25 +1,18 @@
 # Example IMS Integration
-Example Java webapp with IHTSDO Identity Management Service Integration
+Example Java webapp demonstrating integration with the SNOMED International's Identity Management Service Integration
 
 ## Overview
-The first commit to this repository is with the plain webapp using spring-boot. Any framework compatible with spring-security could be used.
+The commits in this repository start with a plain webapp using spring-boot. Any framework compatible with spring-security could be used.
 
-The second commit to this repository adds the IMS integration.
+In latest version of this project the latest IMS integration style is used where the username and roles are passed to the application by Nginx using headers.
+In a production environment Nginx would fetch this information from IMS but for local development test values could be hardcoded.
 
 ## Detail
-When you log in to the dev IMS service [dev-ims.ihtsdotools.org](https://dev-ims.ihtsdotools.org/) you will get a cookie tied to the *.ihtsdotools.org domain.
+For local development authentication details can be hardcoded in your Nginx config and passed into the application via http headers.
 
-In order to use this cookie on your local machine you will need to make your application accessible under the *.ihtsdotools.org domain on port 80.
-
-The recommended way to do this is to [install nginx](https://www.google.com/?#q=install%20nginx) then use the nginx.conf which is part of this project.
-Once your application is started on port 8080 and nginx is running your application should be accessible here http://local.ihtsdotools.org
-
-If you are not logged in to IMS you will get a "403 - Access Denied" response from your API controllers.
-
-Your frotend javascript code should access ["/ims-api/account"](http://local.ihtsdotools.org/ims-api/account) to check if the user is logged in. That URL is also part of the nginx config and will map through to the IMS server for the dev environment. If the user is logged in there will be a 200 response along with the user details. If the user is not logged in there will be a 302 response to redirect the user to the IMS login page.
+[Install nginx](https://www.google.com/?#q=install%20nginx) then use the nginx.conf which is part of this project.
+Once your application is started on port 8080 and nginx is running your application should be accessible here http://127.0.0.1/
 
 ## Notes
 - The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the Crowd/IMS role "ihtsdo-sca-author". You should change this to your application specific role.
-- The crowd.properties file is only relevant for the development environment.
-- There is an issue on the macbook where only one in three IMS requests are authenticated. This is something to do with having multiple network interfaces and each producing a different machine signature but the issue is unsolved.
 - If you wish to run your application locally without using IMS security just comment out the "intercept-url" lines in security-context.xml which require a role.

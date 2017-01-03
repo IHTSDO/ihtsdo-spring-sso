@@ -7,22 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class ControllerHelper {
 
-	public static UserDetails getUserDetails() {
+	public static String getUsername() {
 		final SecurityContext context = SecurityContextHolder.getContext();
 		if (context != null) {
 			final Authentication authentication = context.getAuthentication();
 			if (authentication != null) {
-				return (UserDetails) authentication.getPrincipal();
+				return (String) authentication.getPrincipal();
 			}
 		}
 		return null;
 	}
 
-	public static String getUsername() {
-		final UserDetails userDetails = getUserDetails();
-		if (userDetails != null) {
-			return userDetails.getUsername();
-		}
-		return null;
-	}
 }
