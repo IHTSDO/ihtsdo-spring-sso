@@ -1,6 +1,7 @@
 package org.ihtsdo.example.ims;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -19,28 +20,26 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 
 	private static final String USERNAME = "X-AUTH-username";
 	private static final String ROLES = "X-AUTH-roles";
+	private static final String TOKEN = "X-AUTH-token";
 
 	@Override
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
 			throws ServletException, IOException {
 
-		final Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
-
-		// Pass through recorded credentials and details object
-		final Object currentCredentials = currentAuthentication.getCredentials();
-		final Object currentDetails = currentAuthentication.getDetails();
-
-		// Change username to value retrieved from header
-		final String decoratedUsername = request.getHeader(USERNAME);
-
 		// Merge authorities granted via existing authentication with values in header
 		final List<GrantedAuthority> decoratedRoles = AuthorityUtils.commaSeparatedStringToAuthorityList(request.getHeader(ROLES));
-		decoratedRoles.addAll(currentAuthentication.getAuthorities());
+		decoratedRoles.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
-		final AbstractAuthenticationToken decoratedAuthentication = new PreAuthenticatedAuthenticationToken(decoratedUsername, currentCredentials, decoratedRoles);
-		decoratedAuthentication.setDetails(currentDetails);
+		// Create authentication with username and security token from headers
+		final AbstractAuthenticationToken decoratedAuthentication = new PreAuthenticatedAuthenticationToken(
+				request.getHeader(USERNAME),
+				request.getHeader(TOKEN),
+				decoratedRoles);
+
+		// Pass through existing details object
+		decoratedAuthentication.setDetails(SecurityContextHolder.getContext().getAuthentication().getDetails());
+
 		SecurityContextHolder.getContext().setAuthentication(decoratedAuthentication);
-
 		filterChain.doFilter(request, response);
 	}
 

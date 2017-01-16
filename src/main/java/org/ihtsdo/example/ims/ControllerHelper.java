@@ -8,12 +8,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class ControllerHelper {
 
 	public static String getUsername() {
+		final Authentication authentication = getAuthentication();
+		if (authentication != null) {
+			return (String) authentication.getPrincipal();
+		}
+		return null;
+	}
+
+	public static String getAuthenticationToken() {
+		final Authentication authentication = getAuthentication();
+		if (authentication != null) {
+			return (String) authentication.getCredentials();
+		}
+		return null;
+	}
+
+	private static Authentication getAuthentication() {
 		final SecurityContext context = SecurityContextHolder.getContext();
 		if (context != null) {
-			final Authentication authentication = context.getAuthentication();
-			if (authentication != null) {
-				return (String) authentication.getPrincipal();
-			}
+			return context.getAuthentication();
 		}
 		return null;
 	}
