@@ -22,6 +22,7 @@
 
 	<global-method-security pre-post-annotations="enabled" secured-annotations="enabled" proxy-target-class="true" />
 
+	<!-- Basic Authentication -->
 	<authentication-manager>
 		<authentication-provider>
 			<user-service>
@@ -30,7 +31,9 @@
 		</authentication-provider>
 	</authentication-manager>
 
+	<!-- SSO Authentication -->
 	<beans:bean id="authenticationDecorator" class="org.ihtsdo.ims.integration.RequestHeaderAuthenticationDecorator" />
+
 	<beans:bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 	
 </beans:beans>

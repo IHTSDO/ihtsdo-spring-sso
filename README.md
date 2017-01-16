@@ -9,13 +9,20 @@ Although the example uses Spring Boot any framework compatible with spring-secur
 
 ## Detail
 The latest style of IMS integration is that NGINX does the IMS authentication and then the username, roles and authentication token is passed to the java application in http headers.
-In a production environment NGINX would fetch this information from IMS but for local development test values could be hardcoded.
 
-For local development authentication details can be hardcoded into http headers in your Nginx config to be passed into your application.
+Backend java applications should also have basic authentication security as a belt and braces approach in case they are accessed directly without going through NGINX.
 
-[Install NGINX](https://www.google.com/?#q=install%20nginx) then use the nginx.conf which is part of this project.
+The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the Crowd/IMS role "ihtsdo-sca-author". You should change this to your application specific role.
+
+When making requests from your application to other backend applications the user's SSO security token should be forwarded. 
+Simply set a HTTP header in the request named "Cookie" with the value returned from ```ControllerHelper.getAuthenticationToken()```.
+
+## Local Devlopment
+If you wish to run your application locally without using IMS security just comment out the "intercept-url" lines in security-context.xml which require a role.
+
+To use NGINX [install it](https://www.google.com/?#q=install%20nginx) then update and use the nginx.conf which is part of this project. 
+
+In a production environment NGINX would fetch the username, roles and authentication token from IMS but for local development test-values could be hardcoded into HTTP headers in your Nginx config.
+
+
 Once your application is started on port 8080 and NGINX is running your application should be accessible here http://127.0.0.1/
-
-## Notes
-- The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the Crowd/IMS role "ihtsdo-sca-author". You should change this to your application specific role.
-- If you wish to run your application locally without using IMS security just comment out the "intercept-url" lines in security-context.xml which require a role.
