@@ -1,9 +1,8 @@
-package org.ihtsdo.example.ims;
+package org.ihtsdo.ims.integration;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 public class ControllerHelper {
 

@@ -8,22 +8,13 @@
  	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 	<!-- REST should have no state, each request is re-authenticated -->
-	<http create-session="stateless"
-			auto-config="false" 				
-			entry-point-ref="http403EntryPoint"
-			use-expressions="true"
-		>
+	<http create-session="stateless">
+		<!-- No security on Swagger API site or Webapp root -->
+		<intercept-url pattern="/api-docs/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/static/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 
-		<!-- No security on Swagger API site -->
-		<intercept-url pattern="/api-docs/**" access="permitAll" />
-		<intercept-url pattern="/**/*.html" access="permitAll" />
-		<intercept-url pattern="/**/*.js" access="permitAll" />
-		<intercept-url pattern="/**/*.css" access="permitAll" />
-		<intercept-url pattern="/**/*.png" access="permitAll" />
-		<intercept-url pattern="/**/*.jpg" access="permitAll" />
-
-		<!-- Require application role on everything else -->
-		<!-- Comment out the line below to disable authentication -->
+		<!-- All other endpoint secured -->
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_ihtsdo-sca-author')" />
 		<http-basic />
 		<custom-filter ref="authenticationDecorator" after="BASIC_AUTH_FILTER" />
@@ -39,7 +30,7 @@
 		</authentication-provider>
 	</authentication-manager>
 
-	<beans:bean id="authenticationDecorator" class="org.ihtsdo.example.ims.RequestHeaderAuthenticationDecorator" />
+	<beans:bean id="authenticationDecorator" class="org.ihtsdo.ims.integration.RequestHeaderAuthenticationDecorator" />
 	<beans:bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 	
 </beans:beans>
