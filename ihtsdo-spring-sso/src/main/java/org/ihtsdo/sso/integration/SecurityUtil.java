@@ -1,10 +1,10 @@
-package org.ihtsdo.ims.integration;
+package org.ihtsdo.sso.integration;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class ControllerHelper {
+public class SecurityUtil {
 
 	public static String getUsername() {
 		final Authentication authentication = getAuthentication();

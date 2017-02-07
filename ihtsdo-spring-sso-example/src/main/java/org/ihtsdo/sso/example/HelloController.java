@@ -1,6 +1,6 @@
-package org.ihtsdo.example.ims;
+package org.ihtsdo.sso.example;
 
-import org.ihtsdo.ims.integration.ControllerHelper;
+import org.ihtsdo.sso.integration.SecurityUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +9,7 @@ public class HelloController {
 
 	@RequestMapping("/")
 	public String index() {
-		return "Hello " + ControllerHelper.getUsername();
+		return "Hello " + SecurityUtil.getUsername();
 	}
 
 }

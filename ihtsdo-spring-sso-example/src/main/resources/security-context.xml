@@ -32,7 +32,7 @@
 	</authentication-manager>
 
 	<!-- SSO Authentication -->
-	<beans:bean id="authenticationDecorator" class="org.ihtsdo.ims.integration.RequestHeaderAuthenticationDecorator" />
+	<beans:bean id="authenticationDecorator" class="org.ihtsdo.sso.integration.RequestHeaderAuthenticationDecorator" />
 
 	<beans:bean id="http403EntryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint" />
 	

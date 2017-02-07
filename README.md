@@ -15,7 +15,7 @@ Backend java applications should also have basic authentication security as a be
 The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the Crowd/IMS role "ihtsdo-sca-author". You should change this to your application specific role.
 
 When making requests from your application to other backend applications the user's SSO security token should be forwarded. 
-Simply set a HTTP header in the request named "Cookie" with the value returned from ```ControllerHelper.getAuthenticationToken()```.
+Simply set a HTTP header in the request named "Cookie" with the value returned from ```SecurityUtil.getAuthenticationToken()```.
 
 ## Local Devlopment
 If you wish to run your application locally without using IMS security just comment out the "intercept-url" lines in security-context.xml which require a role.

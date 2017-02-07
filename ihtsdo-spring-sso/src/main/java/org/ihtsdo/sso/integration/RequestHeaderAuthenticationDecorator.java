@@ -1,4 +1,4 @@
-package org.ihtsdo.ims.integration;
+package org.ihtsdo.sso.integration;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
