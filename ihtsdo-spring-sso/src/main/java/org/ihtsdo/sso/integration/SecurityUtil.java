@@ -3,13 +3,19 @@ package org.ihtsdo.sso.integration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 public class SecurityUtil {
 
 	public static String getUsername() {
 		final Authentication authentication = getAuthentication();
 		if (authentication != null) {
-			return (String) authentication.getPrincipal();
+			Object obj = authentication.getPrincipal();
+			if (obj instanceof User) {
+				((User)obj).getUsername();
+			} else {
+				return (String) obj ;
+			}
 		}
 		return null;
 	}
