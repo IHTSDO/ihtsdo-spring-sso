@@ -42,7 +42,6 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 
 		// Clear context from this thread when request complete
-		SecurityContextHolder.getContext().setAuthentication(null);
 		SecurityContextHolder.clearContext();
 	}
 
