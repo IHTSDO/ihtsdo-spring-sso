@@ -17,7 +17,7 @@ The example security-context.xml includes "ROLE_ihtsdo-sca-author" which is the 
 When making requests from your application to other backend applications the user's SSO security token should be forwarded. 
 Simply set a HTTP header in the request named "Cookie" with the value returned from ```SecurityUtil.getAuthenticationToken()```.
 
-## Local Devlopment
+## Local Development
 If you wish to run your application locally without using IMS security just comment out the "intercept-url" lines in security-context.xml which require a role.
 
 To use NGINX [install it](https://www.google.com/?#q=install%20nginx) then update and use the nginx.conf which is part of this project. 

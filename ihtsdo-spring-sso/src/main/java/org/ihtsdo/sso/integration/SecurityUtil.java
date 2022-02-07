@@ -28,7 +28,7 @@ public class SecurityUtil {
 		return null;
 	}
 
-	private static Authentication getAuthentication() {
+	public static Authentication getAuthentication() {
 		final SecurityContext context = SecurityContextHolder.getContext();
 		if (context != null) {
 			return context.getAuthentication();

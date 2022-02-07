@@ -2,7 +2,6 @@ package org.ihtsdo.sso.integration;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -12,8 +11,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 
@@ -25,18 +24,33 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 	protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
 			throws ServletException, IOException {
 
-		// Merge authorities granted via existing authentication with values in header
-		final List<GrantedAuthority> decoratedRoles = AuthorityUtils.commaSeparatedStringToAuthorityList(request.getHeader(ROLES));
-		decoratedRoles.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		Authentication authentication = SecurityUtil.getAuthentication();
+
+		if (authentication instanceof PreAuthenticatedAuthenticationToken) {
+
+			String authenticationToken = SecurityUtil.getAuthenticationToken();
+
+			if (authenticationToken != null && authenticationToken.equals(request.getHeader(TOKEN))) {
+				// Security context already holds the correct authorities - do nothing and return
+				filterChain.doFilter(request, response);
+				return;
+			} else {
+				// Security context holds outdated authorities - invalidate current session and continue
+				HttpSession session = request.getSession(false);
+				if (session != null) {
+					session.invalidate();
+				}
+			}
+		}
 
 		// Create authentication with username and security token from headers
 		final AbstractAuthenticationToken decoratedAuthentication = new PreAuthenticatedAuthenticationToken(
 				request.getHeader(USERNAME),
 				request.getHeader(TOKEN),
-				decoratedRoles);
+				AuthorityUtils.commaSeparatedStringToAuthorityList(request.getHeader(ROLES)));
 
 		// Pass through existing details object
-		decoratedAuthentication.setDetails(SecurityContextHolder.getContext().getAuthentication().getDetails());
+		decoratedAuthentication.setDetails(authentication.getDetails());
 
 		SecurityContextHolder.getContext().setAuthentication(decoratedAuthentication);
 		filterChain.doFilter(request, response);
