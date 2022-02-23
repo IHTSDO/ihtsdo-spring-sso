@@ -56,9 +56,6 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
 		Authentication authentication = SecurityUtil.getAuthentication();
-		return authentication == null || !authentication.isAuthenticated() ||
-				request.getHeader(USERNAME) == null ||
-				request.getHeader(TOKEN) == null ||
-				request.getHeader(ROLES) == null;
+		return authentication == null || !authentication.isAuthenticated() || request.getHeader(USERNAME) == null || request.getHeader(ROLES) == null;
 	}
 }
