@@ -12,7 +12,7 @@ public class SecurityUtil {
 		if (authentication != null) {
 			Object obj = authentication.getPrincipal();
 			if (obj instanceof User) {
-				((User)obj).getUsername();
+				return ((User)obj).getUsername();
 			} else {
 				return (String) obj ;
 			}
