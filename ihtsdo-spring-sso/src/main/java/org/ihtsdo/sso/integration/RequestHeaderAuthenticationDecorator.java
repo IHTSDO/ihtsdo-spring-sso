@@ -25,7 +25,8 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 		Authentication authentication = SecurityUtil.getAuthentication();
 		String authenticationToken = SecurityUtil.getAuthenticationToken();
 
-		if (authenticationToken == null || !authenticationToken.equals(request.getHeader(TOKEN))) {
+		if (authenticationToken == null || !authenticationToken.equals(getToken(request))) {
+
 			// Clear context and invalidate session (if available)
 			SecurityContextHolder.clearContext();
 			HttpSession session = request.getSession(false);
@@ -36,9 +37,9 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 
 			// Create new authentication with username, security token and authorities from request header
 			final AbstractAuthenticationToken decoratedAuthentication = new PreAuthenticatedAuthenticationToken(
-					request.getHeader(USERNAME),
-					request.getHeader(TOKEN),
-					AuthorityUtils.commaSeparatedStringToAuthorityList(request.getHeader(ROLES)));
+					getUsername(request),
+					getToken(request),
+					AuthorityUtils.commaSeparatedStringToAuthorityList(getRoles(request)));
 
 			// Pass through existing authentication details
 			decoratedAuthentication.setDetails(authentication.getDetails());
@@ -47,15 +48,23 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 		}
 
 		filterChain.doFilter(request, response);
-
-		// Clear context from this thread when request completes
-		// Not needed here if this filter is registered within Spring Security filter chain (as it probably should) since the chain clears the context
-		SecurityContextHolder.clearContext();
 	}
 
 	@Override
 	protected boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
 		Authentication authentication = SecurityUtil.getAuthentication();
-		return authentication == null || !authentication.isAuthenticated() || request.getHeader(USERNAME) == null || request.getHeader(ROLES) == null;
+		return authentication == null || !authentication.isAuthenticated() || getUsername(request) == null || getRoles(request) == null;
+	}
+
+	protected String getUsername(final HttpServletRequest request) {
+		return request.getHeader(USERNAME);
+	}
+
+	protected String getRoles(final HttpServletRequest request) {
+		return request.getHeader(ROLES);
+	}
+
+	protected String getToken(final HttpServletRequest request) {
+		return request.getHeader(TOKEN);
 	}
 }
