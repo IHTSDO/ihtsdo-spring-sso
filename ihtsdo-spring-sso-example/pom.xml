@@ -1,38 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.ihtsdo.otf</groupId>
-        <artifactId>ihtsdo-spring-sso-parent</artifactId>
-        <version>3.1.2-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.ihtsdo.otf</groupId>
+		<artifactId>ihtsdo-spring-sso-parent</artifactId>
+		<version>3.1.2-SNAPSHOT</version>
+	</parent>
 
-    <groupId>org.ihtsdo.otf</groupId>
-    <artifactId>ihtsdo-spring-sso-example</artifactId>
+	<artifactId>ihtsdo-spring-sso-example</artifactId>
 
-    <properties>
-        <spring-boot.version>1.4.3.RELEASE</spring-boot.version>
-    </properties>
+	<properties>
+		<spring-boot.version>1.4.3.RELEASE</spring-boot.version>
+	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.ihtsdo.otf</groupId>
-            <artifactId>ihtsdo-spring-sso</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>
-    </dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>org.ihtsdo.otf</groupId>
+			<artifactId>ihtsdo-spring-sso</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+	</dependencies>
 
 </project>
