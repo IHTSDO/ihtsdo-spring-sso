@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.ihtsdo.otf</groupId>
 		<artifactId>ihtsdo-spring-sso-parent</artifactId>
-		<version>3.1.2</version>
+		<version>3.1.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>ihtsdo-spring-sso-example</artifactId>
