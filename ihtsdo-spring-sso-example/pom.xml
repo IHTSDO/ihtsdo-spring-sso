@@ -12,10 +12,6 @@
 
 	<artifactId>ihtsdo-spring-sso-example</artifactId>
 
-	<properties>
-		<spring-boot.version>1.4.3.RELEASE</spring-boot.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.ihtsdo.otf</groupId>
@@ -25,12 +21,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-			<version>${spring-boot.version}</version>
 		</dependency>
 	</dependencies>
 
