@@ -42,7 +42,8 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 					AuthorityUtils.commaSeparatedStringToAuthorityList(getRoles(request)));
 
 			// Pass through existing authentication details
-			decoratedAuthentication.setDetails(authentication.getDetails());
+            assert authentication != null;
+            decoratedAuthentication.setDetails(authentication.getDetails());
 
 			SecurityContextHolder.getContext().setAuthentication(decoratedAuthentication);
 		}
@@ -51,7 +52,7 @@ public class RequestHeaderAuthenticationDecorator extends OncePerRequestFilter {
 	}
 
 	@Override
-	protected boolean shouldNotFilter(final HttpServletRequest request) throws ServletException {
+	protected boolean shouldNotFilter(final HttpServletRequest request) {
 		Authentication authentication = SecurityUtil.getAuthentication();
 		return authentication == null || !authentication.isAuthenticated() || getUsername(request) == null || getRoles(request) == null;
 	}
